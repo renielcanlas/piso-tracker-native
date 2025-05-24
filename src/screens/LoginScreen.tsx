@@ -37,7 +37,7 @@ function LoginScreen() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255,255,255,0.7)'
+          backgroundColor: 'rgba(255,255,255,0.4)' // decreased opacity from 0.7 to 0.5
         }}
         pointerEvents="none"
       />
@@ -49,10 +49,33 @@ function LoginScreen() {
           accessibilityLabel="App logo"
         />
         <View style={{ alignItems: 'center', width: '80%' }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#222', marginBottom: 8, textAlign: 'center' }}>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              color: themeColors.primaryBlue,
+              marginBottom: 8,
+              textAlign: 'center',
+              textShadowColor: themeColors.white,
+              textShadowOffset: { width: 0, height: 0 },
+              textShadowRadius: 4,
+              elevation: 2, // for Android shadow
+            }}
+          >
             Login with your account
           </Text>
-          <Text style={{ fontSize: 14, color: '#555', textAlign: 'center', marginBottom: 24 }}>
+          <Text
+            style={{
+              fontSize: 14,
+              color: themeColors.outlineBlue,
+              textAlign: 'center',
+              marginBottom: 24,
+              textShadowColor: themeColors.white,
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 6,
+              elevation: 1,
+            }}
+          >
             Saan na napunta ang pera mo?
           </Text>
           <TextInput
@@ -92,7 +115,7 @@ function LoginScreen() {
             <AnimatedStars />
             <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
           </View>
-          <Text style={{ fontSize: 13, color: '#888', marginBottom: 12, textAlign: 'center' }}>
+          <Text style={{ fontSize: 13, color: themeColors.yellow, marginBottom: 12, textAlign: 'center' }}>
             or login with
           </Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
@@ -116,8 +139,19 @@ function LoginScreen() {
         </View>
       </View>
       {/* Footer with links */}
-      <View style={{ width: '100%', alignItems: 'center', paddingBottom: 24, position: 'absolute', bottom: 0, left: 0 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+      <View style={{ width: '100%', alignItems: 'center', paddingBottom: 24, position: 'absolute', bottom: 0, left: 0, paddingTop: 12 }}>
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0,
+            backgroundColor: 'rgba(255,255,255,0.7)',
+            zIndex: 0,
+          }}
+        />
+        <View style={{ flexDirection: 'row', justifyContent: 'center', zIndex: 1 }}>
           <Text style={{ color: themeColors.link, textDecorationLine: 'underline', marginHorizontal: 8 }} onPress={() => router.push('/terms')}>
             Terms of Service
           </Text>
