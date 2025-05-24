@@ -136,6 +136,17 @@ function LoginScreen() {
               Google
             </Button>
           </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
+            <Text style={{ color: themeColors.yellow, fontSize: 13 }}>
+              Don&apos;t have an account?
+            </Text>
+            <Text
+              style={{ color: themeColors.link, fontWeight: 'bold', marginLeft: 6, fontSize: 13, textDecorationLine: 'underline' }}
+              onPress={() => router.push('/signup') as any}
+            >
+              Sign up
+            </Text>
+          </View>
         </View>
       </View>
       {/* Footer with links */}
