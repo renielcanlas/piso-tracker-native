@@ -1,10 +1,27 @@
 import { useRouter } from "expo-router";
+import { getAuth, signOut } from "firebase/auth";
 import * as React from "react";
 import { View } from "react-native";
 import { Divider, List } from "react-native-paper";
+import app from "../utils/firebase";
 
 function SettingsScreen() {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      const auth = getAuth(app);
+      await signOut(auth);
+      router.replace("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <List.Section>
@@ -23,7 +40,8 @@ function SettingsScreen() {
           title="Logout"
           left={(props) => <List.Icon {...props} icon="logout" color="#d32f2f" />}
           titleStyle={{ color: '#d32f2f' }}
-          onPress={() => router.replace("/")}
+          onPress={handleLogout}
+          disabled={loading}
         />
       </List.Section>
       <Divider />

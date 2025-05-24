@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import { Image, Text, View } from "react-native";
@@ -6,13 +7,56 @@ import { Button, TextInput } from "react-native-paper";
 import AnimatedStars from "../components/AnimatedStars";
 import SignupModal from "../components/SignupModal";
 import { themeColors } from "../components/themeColors";
+import app from "../utils/firebase";
 
 function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showSignup, setShowSignup] = React.useState(false); // Local state to control the signup modal
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
+
+  React.useEffect(() => {
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, redirect to dashboard
+        router.replace("/dashboard-tabs");
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    try {
+      const auth = getAuth(app);
+      await signInWithEmailAndPassword(auth, email, password);
+      router.replace("/dashboard-tabs");
+    } catch (err: any) {
+      if (
+        err?.message?.includes('auth has not been registered yet') ||
+        err?.message?.includes('A network Auth instance was not found')
+      ) {
+        setError(
+          'Authentication is temporarily unavailable. Please restart the app.'
+        );
+      } else {
+        setError(err.message || "Login failed. Please check your credentials.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={{ flex: 1, position: 'relative' }}>
@@ -110,7 +154,18 @@ function LoginScreen() {
               />
             }
           />
-          <Button mode="contained" style={{ width: '100%', backgroundColor: themeColors.primaryBlue, borderRadius: 4 }} onPress={() => {}}>
+          {error ? (
+            <Text style={{ color: themeColors.googleRed, marginBottom: 16, textAlign: 'center' }}>
+              {error}
+            </Text>
+          ) : null}
+          <Button 
+            mode="contained" 
+            style={{ width: '100%', backgroundColor: themeColors.primaryBlue, borderRadius: 4 }} 
+            onPress={handleLogin}
+            loading={loading}
+            disabled={loading}
+          >
             Login
           </Button>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 24, width: '100%' }}>
