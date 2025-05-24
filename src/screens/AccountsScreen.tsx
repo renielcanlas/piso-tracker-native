@@ -1,5 +1,6 @@
+import { BadgeDollarSign, Banknote, CreditCard, Landmark, PiggyBank, Smartphone, Wallet } from "lucide-react-native";
 import * as React from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { List } from "react-native-paper";
 
 // Define types for type safety
@@ -17,29 +18,29 @@ const accountsData: AccountGroup[] = [
   {
     category: "Cash",
     accounts: [
-      { name: "Wallet", icon: require("../../assets/images/partial-react-logo.png"), balance: 1500 },
-      { name: "Petty Cash", icon: require("../../assets/images/partial-react-logo.png"), balance: 500 },
+      { name: "Wallet", icon: Wallet, balance: 1500 },
+      { name: "Petty Cash", icon: PiggyBank, balance: 500 },
     ],
   },
   {
     category: "Bank",
     accounts: [
-      { name: "BPI Savings", icon: require("../../assets/images/icon.png"), balance: 25000 },
-      { name: "BDO Checking", icon: require("../../assets/images/icon.png"), balance: 12000 },
+      { name: "BPI Savings", icon: Landmark, balance: 25000 },
+      { name: "BDO Checking", icon: Banknote, balance: 12000 },
     ],
   },
   {
     category: "Digital Wallet",
     accounts: [
-      { name: "GCash", icon: require("../../assets/images/favicon.png"), balance: 800 },
-      { name: "PayMaya", icon: require("../../assets/images/favicon.png"), balance: 1200 },
+      { name: "GCash", icon: Smartphone, balance: 800 },
+      { name: "PayMaya", icon: BadgeDollarSign, balance: 1200 },
     ],
   },
   {
     category: "Credit Card",
     accounts: [
-      { name: "BPI Amore Visa", icon: require("../../assets/images/splash-icon.png"), balance: -5000 },
-      { name: "BDO Mastercard", icon: require("../../assets/images/splash-icon.png"), balance: -3000 },
+      { name: "BPI Amore Visa", icon: CreditCard, balance: -5000 },
+      { name: "BDO Mastercard", icon: CreditCard, balance: -3000 },
     ],
   },
 ];
@@ -67,7 +68,7 @@ export default function AccountsScreen() {
                 <List.Item
                   key={account.name}
                   title={account.name}
-                  left={() => <Image source={account.icon} style={{ width: 40, height: 40, marginRight: 16 }} />}
+                  left={() => <account.icon size={32} style={{ marginRight: 16 }} color="#555" />}
                   right={() => <Text style={{ fontWeight: "bold" }}>{account.balance}</Text>}
                 />
               ))}
