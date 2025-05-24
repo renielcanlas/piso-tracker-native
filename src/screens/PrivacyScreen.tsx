@@ -5,7 +5,6 @@ import { Text } from "react-native-paper";
 export default function PrivacyScreen() {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#fff", padding: 16 }}>
-      <Text variant="headlineMedium" style={{ marginBottom: 16 }}>Privacy Policy</Text>
       <Text style={{ marginBottom: 12 }}>
         Piso Tracker values your privacy. This policy explains how we collect, use, and protect your information:
       </Text>

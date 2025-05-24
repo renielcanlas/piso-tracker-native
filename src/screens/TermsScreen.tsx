@@ -5,7 +5,6 @@ import { Text } from "react-native-paper";
 export default function TermsScreen() {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#fff", padding: 16 }}>
-      <Text variant="headlineMedium" style={{ marginBottom: 16 }}>Terms of Use</Text>
       <Text style={{ marginBottom: 12 }}>
         Welcome to Piso Tracker! By using this expense tracking application, you agree to the following terms:
       </Text>
