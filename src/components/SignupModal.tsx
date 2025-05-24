@@ -2,12 +2,10 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import {
-  Keyboard,
   Modal,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 import { Button as PaperButton, TextInput as PaperTextInput } from "react-native-paper";
 import app from "../utils/firebase";
@@ -109,72 +107,71 @@ const SignupModal: React.FC<SignupModalProps> = ({ visible, onClose }) => {
       transparent
       onRequestClose={onClose}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.overlay}>
-          <View style={styles.modal}>
-            <Text style={styles.title}>Start using the app</Text>
-            <PaperTextInput
-              label="Email"
-              value={email}
-              onChangeText={setEmail}
-              style={{ marginBottom: 16, width: '100%' }}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              mode="outlined"
-              theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
-            />
-            <PaperTextInput
-              label="Password"
-              value={password}
-              onChangeText={setPassword}
-              style={{ marginBottom: 16, width: '100%' }}
-              secureTextEntry={!showPassword}
-              mode="outlined"
-              theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
-              right={
-                <PaperTextInput.Icon
-                  onPress={() => setShowPassword((prev) => !prev)}
-                  icon={() => showPassword ? (
-                    <EyeOff size={20} color={themeColors.outlineBlue} />
-                  ) : (
-                    <Eye size={20} color={themeColors.outlineBlue} />
-                  )}
-                  forceTextInputFocus={false}
-                />
-              }
-            />
-            <PaperTextInput
-              label="Verify Password"
-              value={verifyPassword}
-              onChangeText={setVerifyPassword}
-              style={{ marginBottom: 24, width: '100%' }}
-              secureTextEntry={!showVerifyPassword}
-              mode="outlined"
-              theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
-              right={
-                <PaperTextInput.Icon
-                  onPress={() => setShowVerifyPassword((prev) => !prev)}
-                  icon={() => showVerifyPassword ? (
-                    <EyeOff size={20} color={themeColors.outlineBlue} />
-                  ) : (
-                    <Eye size={20} color={themeColors.outlineBlue} />
-                  )}
-                  forceTextInputFocus={false}
-                />
-              }
-            />
-            {error ? <Text style={styles.error}>{error}</Text> : null}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
-              <PaperButton mode="contained" onPress={onClose} style={{ backgroundColor: themeColors.googleRed, flex: 1, marginRight: 8, borderRadius: 4 }} labelStyle={{ color: themeColors.white }}>
-                Cancel
-              </PaperButton>
-              <PaperButton mode="contained" onPress={handleSignup} style={{ backgroundColor: themeColors.primaryBlue, flex: 1, marginLeft: 8, borderRadius: 4 }} labelStyle={{ color: themeColors.white }}>
-                Sign Up
-              </PaperButton>
-            </View>
+      <View style={styles.overlay}>
+        {/* Remove TouchableWithoutFeedback for best web compatibility */}
+        <View style={styles.modal}>
+          <Text style={styles.title}>Start using the app</Text>
+          <PaperTextInput
+            label="Email"
+            value={email}
+            onChangeText={setEmail}
+            style={{ marginBottom: 16, width: '100%' }}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            mode="outlined"
+            theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
+          />
+          <PaperTextInput
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            style={{ marginBottom: 16, width: '100%' }}
+            secureTextEntry={!showPassword}
+            mode="outlined"
+            theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
+            right={
+              <PaperTextInput.Icon
+                onPress={() => setShowPassword((prev) => !prev)}
+                icon={() => showPassword ? (
+                  <EyeOff size={20} color={themeColors.outlineBlue} />
+                ) : (
+                  <Eye size={20} color={themeColors.outlineBlue} />
+                )}
+                forceTextInputFocus={false}
+              />
+            }
+          />
+          <PaperTextInput
+            label="Verify Password"
+            value={verifyPassword}
+            onChangeText={setVerifyPassword}
+            style={{ marginBottom: 24, width: '100%' }}
+            secureTextEntry={!showVerifyPassword}
+            mode="outlined"
+            theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
+            right={
+              <PaperTextInput.Icon
+                onPress={() => setShowVerifyPassword((prev) => !prev)}
+                icon={() => showVerifyPassword ? (
+                  <EyeOff size={20} color={themeColors.outlineBlue} />
+                ) : (
+                  <Eye size={20} color={themeColors.outlineBlue} />
+                )}
+                forceTextInputFocus={false}
+              />
+            }
+          />
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
+            <PaperButton mode="contained" onPress={onClose} style={{ backgroundColor: themeColors.googleRed, flex: 1, marginRight: 8, borderRadius: 4 }} labelStyle={{ color: themeColors.white }}>
+              Cancel
+            </PaperButton>
+            <PaperButton mode="contained" onPress={handleSignup} style={{ backgroundColor: themeColors.primaryBlue, flex: 1, marginLeft: 8, borderRadius: 4 }} labelStyle={{ color: themeColors.white }}>
+              Sign Up
+            </PaperButton>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     </Modal>
   );
 };
