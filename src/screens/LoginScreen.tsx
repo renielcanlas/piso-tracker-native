@@ -4,12 +4,14 @@ import * as React from "react";
 import { Image, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import AnimatedStars from "../components/AnimatedStars";
+import SignupModal from "../components/SignupModal";
 import { themeColors } from "../components/themeColors";
 
 function LoginScreen() {
-  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [showSignup, setShowSignup] = React.useState(false); // Local state to control the signup modal
   const router = useRouter();
 
   return (
@@ -79,11 +81,12 @@ function LoginScreen() {
             Saan na napunta ang pera mo?
           </Text>
           <TextInput
-            label="Username"
-            value={username}
-            onChangeText={setUsername}
+            label="Email"
+            value={email}
+            onChangeText={setEmail}
             style={{ marginBottom: 16, width: '100%' }}
             autoCapitalize="none"
+            keyboardType="email-address"
             mode="outlined"
             theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
           />
@@ -142,11 +145,14 @@ function LoginScreen() {
             </Text>
             <Text
               style={{ color: themeColors.link, fontWeight: 'bold', marginLeft: 6, fontSize: 13, textDecorationLine: 'underline' }}
-              onPress={() => router.push('/signup') as any}
+              onPress={() => setShowSignup(true)}
             >
               Sign up
             </Text>
           </View>
+          {showSignup && (
+            <SignupModal visible={showSignup} onClose={() => setShowSignup(false)} />
+          )}
         </View>
       </View>
       {/* Footer with links */}
