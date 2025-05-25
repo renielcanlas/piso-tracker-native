@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, useColorScheme, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import AnimatedStars from "../components/AnimatedStars";
 import SignupModal from "../components/SignupModal";
@@ -11,6 +11,7 @@ import app from "../utils/firebase";
 import { pinoyMoneyPhrases } from "../utils/pinoySayings";
 
 function LoginScreen() {
+  const colorScheme = useColorScheme();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -64,6 +65,15 @@ function LoginScreen() {
     }
   };
 
+  const inputTheme = {
+    colors: {
+      primary: themeColors.facebookBlue,
+      outline: themeColors.facebookBlue,
+      placeholder: colorScheme === 'dark' ? themeColors.textLight : themeColors.textDark,
+      text: colorScheme === 'dark' ? themeColors.white : themeColors.textDark
+    }
+  };
+
   return (
     <View style={{ flex: 1, position: 'relative' }}>
       <Image
@@ -81,15 +91,14 @@ function LoginScreen() {
         accessibilityLabel="Background image"
         accessible
         blurRadius={8}
-      />
-      <View
+      />      <View
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255,255,255,0.7)'
+          backgroundColor: colorScheme === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)'
         }}
         pointerEvents="none"
       />
@@ -106,12 +115,11 @@ function LoginScreen() {
             accessibilityLabel="App logo"
           />
           <View style={{ alignItems: 'center', width: '80%' }}>
-            <View style={{ marginBottom: 24 }}>
-              <Text
+            <View style={{ marginBottom: 24 }}>              <Text
                 style={{
                   fontSize: 24,
                   fontWeight: 'bold',
-                  color: themeColors.primaryBlue,
+                  color: colorScheme === 'dark' ? themeColors.white : themeColors.primaryBlue,
                   textAlign: 'center',
                   marginBottom: 8
                 }}>
@@ -141,14 +149,7 @@ function LoginScreen() {
               style={{ marginBottom: 16, width: '100%' }}
               autoCapitalize="none"
               keyboardType="email-address"
-              theme={{
-                colors: {
-                  primary: themeColors.facebookBlue,
-                  outline: themeColors.facebookBlue,
-                  placeholder: themeColors.textDark,
-                  text: themeColors.textDark
-                }
-              }}
+              theme={inputTheme}
             />
 
             <TextInput
@@ -158,23 +159,14 @@ function LoginScreen() {
               secureTextEntry={!showPassword}
               mode="outlined"
               style={{ marginBottom: 24, width: '100%' }}
-              theme={{
-                colors: {
-                  primary: themeColors.facebookBlue,
-                  outline: themeColors.facebookBlue,
-                  placeholder: themeColors.textDark,
-                  text: themeColors.textDark
-                }
-              }}
+              theme={inputTheme}
               right={
                 <TextInput.Icon
                   icon={showPassword ? EyeOff : Eye}
                   onPress={() => setShowPassword(!showPassword)}
                 />
               }
-            />
-
-            <Button
+            />            <Button
               mode="contained"
               onPress={handleLogin}
               loading={loading}
@@ -184,12 +176,13 @@ function LoginScreen() {
                 marginBottom: 16,
                 backgroundColor: themeColors.primaryBlue,
                 borderRadius: 4
-              }}>
+              }}
+              textColor={themeColors.white}>
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
-              <Text style={{ color: themeColors.textDark }}>
+              <Text style={{ color: colorScheme === 'dark' ? themeColors.textLight : themeColors.textDark }}>
                 Don&apos;t have an account?{' '}
               </Text>
               <Button
@@ -212,6 +205,7 @@ function LoginScreen() {
                   borderRadius: 4,
                   backgroundColor: themeColors.facebookBlue
                 }}
+                textColor={themeColors.white}
                 icon="facebook">
                 Facebook
               </Button>
@@ -224,6 +218,7 @@ function LoginScreen() {
                   borderRadius: 4,
                   backgroundColor: themeColors.googleRed
                 }}
+                textColor={themeColors.white}
                 icon="google">
                 Google
               </Button>
@@ -232,33 +227,32 @@ function LoginScreen() {
         </View>
       </ScrollView>
 
-      {/* Footer */}
-      <View style={{ 
+      {/* Footer */}      <View style={{ 
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         paddingVertical: 16,
-        backgroundColor: 'rgba(255,255,255,0.4)',      }}>        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>          <Button
+        backgroundColor: colorScheme === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.4)',      }}>        <View style={{ flexDirection: 'row', justifyContent: 'center' }}><Button
             mode="text"
             onPress={() => router.push("/terms")}
-            textColor={themeColors.textDark}
+            textColor={colorScheme === 'dark' ? themeColors.white : themeColors.textDark}
             compact>
             Terms of Use
           </Button>
-          <Text style={{ color: themeColors.textDark, alignSelf: 'center', marginHorizontal: 4 }}>•</Text>
+          <Text style={{ color: colorScheme === 'dark' ? themeColors.white : themeColors.textDark, alignSelf: 'center', marginHorizontal: 4 }}>•</Text>
           <Button
             mode="text"
             onPress={() => router.push("/privacy")}
-            textColor={themeColors.textDark}
+            textColor={colorScheme === 'dark' ? themeColors.white : themeColors.textDark}
             compact>
             Privacy Policy
           </Button>
-          <Text style={{ color: themeColors.textDark, alignSelf: 'center', marginHorizontal: 4 }}>•</Text>
+          <Text style={{ color: colorScheme === 'dark' ? themeColors.white : themeColors.textDark, alignSelf: 'center', marginHorizontal: 4 }}>•</Text>
           <Button
             mode="text"
             onPress={() => router.push("/about")}
-            textColor={themeColors.textDark}
+            textColor={colorScheme === 'dark' ? themeColors.white : themeColors.textDark}
             compact>
             About Us
           </Button>
