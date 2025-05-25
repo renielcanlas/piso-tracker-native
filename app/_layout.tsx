@@ -1,6 +1,7 @@
 import { Stack, useRouter, useSegments } from "expo-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as React from "react";
+import { PaperProvider } from "react-native-paper";
 import app from "../src/utils/firebase";
 
 function useProtectedRoute() {
@@ -45,23 +46,25 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={({ route }) => {
-        const headeredRoutes = {
-          terms: "Terms of Use",
-          privacy: "Privacy Policy",
-          "user-account": "User Account Management",
-        };
+    <PaperProvider>
+      <Stack
+        screenOptions={({ route }) => {
+          const headeredRoutes = {
+            terms: "Terms of Use",
+            privacy: "Privacy Policy",
+            "user-account": "User Account Management",
+          };
 
-        const routeName = route.name as keyof typeof headeredRoutes;
-        const shouldShowHeader = routeName in headeredRoutes;
+          const routeName = route.name as keyof typeof headeredRoutes;
+          const shouldShowHeader = routeName in headeredRoutes;
 
-        return {
-          headerShown: shouldShowHeader,
-          headerTitle: shouldShowHeader ? headeredRoutes[routeName] : undefined,
-          headerBackTitle: "Back",
-        };
-      }}
-    />
+          return {
+            headerShown: shouldShowHeader,
+            headerTitle: shouldShowHeader ? headeredRoutes[routeName] : undefined,
+            headerBackTitle: "Back",
+          };
+        }}
+      />
+    </PaperProvider>
   );
 }

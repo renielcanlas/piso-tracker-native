@@ -4,26 +4,35 @@ import * as React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import AnimatedStars from "../components/AnimatedStars";
+import AvatarModal from "../components/AvatarModal";
 import { themeColors } from "../components/themeColors";
 import app from "../utils/firebase";
 
 export default function UserAccountScreen() {
   const auth = getAuth(app);
   const user = auth.currentUser;
-
-  const [currentPassword, setCurrentPassword] = React.useState("");
-  const [newPassword, setNewPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
-  const [showNewPassword, setShowNewPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [showAvatarModal, setShowAvatarModal] = React.useState(false);  const [currentIcon, setCurrentIcon] = React.useState('account');
+  const [currentColor, setCurrentColor] = React.useState(themeColors.outlineDark);
   const [error, setError] = React.useState("");
   const [success, setSuccess] = React.useState("");
   const [passwordErrors, setPasswordErrors] = React.useState({
     newPassword: false,
     confirmPassword: false
   });
+  const [currentPassword, setCurrentPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [passwordLoading, setPasswordLoading] = React.useState(false);
+
+  const handleAvatarSave = (icon: string, color: string) => {
+    setCurrentIcon(icon);
+    setCurrentColor(color);
+    setSuccess("Avatar updated successfully!");
+    setShowAvatarModal(false);
+  };
 
   const validatePassword = (password: string) => {
     return password.length >= 6 && /[A-Z]/.test(password) && /[0-9]/.test(password);
@@ -66,7 +75,7 @@ export default function UserAccountScreen() {
 
     setError("");
     setSuccess("");
-    setLoading(true);
+    setPasswordLoading(true);
     setPasswordErrors({ newPassword: false, confirmPassword: false });
 
     try {
@@ -81,7 +90,7 @@ export default function UserAccountScreen() {
 
       // Update password
       await updatePassword(user, newPassword);
-      
+
       setSuccess("Password updated successfully!");
       setNewPassword("");
       setConfirmPassword("");
@@ -93,7 +102,7 @@ export default function UserAccountScreen() {
         setError(err.message || "Failed to update password. Please try again.");
       }
     } finally {
-      setLoading(false);
+      setPasswordLoading(false);
     }
   };
 
@@ -110,10 +119,27 @@ export default function UserAccountScreen() {
           disabled={true}
           theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
         />
+        <Button
+          mode="outlined"
+          onPress={() => setShowAvatarModal(true)}          style={[styles.socialButton, { borderColor: currentColor }]}
+          labelStyle={{ color: currentColor }}
+          icon={currentIcon}
+        >
+          Change Avatar
+        </Button>
+        
+        <AvatarModal
+          visible={showAvatarModal}
+          onDismiss={() => setShowAvatarModal(false)}
+          onSave={handleAvatarSave}
+          initialIcon={currentIcon}
+          initialColor={currentColor}
+        />
+
         <View style={styles.socialButtonsContainer}>
           <Button
             mode="outlined"
-            onPress={() => {}}
+            onPress={() => { }}
             style={[styles.socialButton, { borderColor: themeColors.facebookBlue }]}
             labelStyle={{ color: themeColors.facebookBlue }}
             icon="facebook"
@@ -122,7 +148,7 @@ export default function UserAccountScreen() {
           </Button>
           <Button
             mode="outlined"
-            onPress={() => {}}
+            onPress={() => { }}
             style={[styles.socialButton, { borderColor: themeColors.googleRed }]}
             labelStyle={{ color: themeColors.googleRed }}
             icon="google"
@@ -131,10 +157,10 @@ export default function UserAccountScreen() {
           </Button>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 24, width: '100%' }}>
-            <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
-            <AnimatedStars />
-            <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
-          </View>
+          <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
+          <AnimatedStars />
+          <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
+        </View>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Change Password</Text>
@@ -166,10 +192,12 @@ export default function UserAccountScreen() {
           style={styles.input}
           mode="outlined"
           error={passwordErrors.newPassword}
-          theme={{ colors: { 
-            primary: passwordErrors.newPassword ? themeColors.googleRed : themeColors.outlineBlue,
-            outline: passwordErrors.newPassword ? themeColors.googleRed : themeColors.outlineBlue
-          }}}
+          theme={{
+            colors: {
+              primary: passwordErrors.newPassword ? themeColors.googleRed : themeColors.outlineBlue,
+              outline: passwordErrors.newPassword ? themeColors.googleRed : themeColors.outlineBlue
+            }
+          }}
           right={
             <TextInput.Icon
               icon={() => showNewPassword ? (
@@ -198,10 +226,12 @@ export default function UserAccountScreen() {
           style={styles.input}
           mode="outlined"
           error={passwordErrors.confirmPassword}
-          theme={{ colors: { 
-            primary: passwordErrors.confirmPassword ? themeColors.googleRed : themeColors.outlineBlue,
-            outline: passwordErrors.confirmPassword ? themeColors.googleRed : themeColors.outlineBlue
-          }}}
+          theme={{
+            colors: {
+              primary: passwordErrors.confirmPassword ? themeColors.googleRed : themeColors.outlineBlue,
+              outline: passwordErrors.confirmPassword ? themeColors.googleRed : themeColors.outlineBlue
+            }
+          }}
           right={
             <TextInput.Icon
               icon={() => showConfirmPassword ? (
@@ -220,8 +250,8 @@ export default function UserAccountScreen() {
         <Button
           mode="contained"
           onPress={handleUpdatePassword}
-          loading={loading}
-          disabled={loading || !newPassword || !confirmPassword}
+          loading={passwordLoading}
+          disabled={passwordLoading || !newPassword || !confirmPassword}
           style={styles.button}
         >
           Update Password
@@ -275,7 +305,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 12,
     marginTop: 16,
-  },  socialButton: {
+  }, socialButton: {
     width: "100%",
     borderWidth: 1.5,
     height: 44,

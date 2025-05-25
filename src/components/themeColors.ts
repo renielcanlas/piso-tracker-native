@@ -5,6 +5,7 @@ export const themeColors = {
   facebookBlue: "#4267B2",
   yellow: "#FFA000",
   outlineBlue: "#2196F3",
+  outlineDark: "#263238",
   textDark: "#263238",
   textLight: "#78909C",
   link: "#1E88E5",

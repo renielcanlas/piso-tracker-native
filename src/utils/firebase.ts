@@ -1,5 +1,5 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA71CkZQoVhU-jvBtkJ6hci6q0Ag1bYs_c",
@@ -13,7 +13,9 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 console.log("Firebase initialized:", app.name, app.options);
-// Analytics is not available in Expo/React Native
-// const analytics = getAnalytics(app);
 
+// Initialize Firestore
+const db = getFirestore(app);
+
+export { db };
 export default app;
