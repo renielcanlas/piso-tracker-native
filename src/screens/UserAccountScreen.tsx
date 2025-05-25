@@ -121,7 +121,8 @@ export default function UserAccountScreen() {
         />
         <Button
           mode="outlined"
-          onPress={() => setShowAvatarModal(true)}          style={[styles.socialButton, { borderColor: currentColor }]}
+          onPress={() => setShowAvatarModal(true)}
+          style={[styles.socialButton, { borderColor: currentColor }]}
           labelStyle={{ color: currentColor }}
           icon={currentIcon}
         >
