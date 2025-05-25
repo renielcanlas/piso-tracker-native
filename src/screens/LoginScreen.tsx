@@ -18,7 +18,6 @@ function LoginScreen() {
   const [showSignup, setShowSignup] = React.useState(false);
   const [error, setError] = React.useState("");  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
-  const passwordRef = React.useRef<RNPTextInput>(null);
 
   // Select a random phrase when component mounts
   const [randomPhrase] = React.useState(() =>
@@ -149,12 +148,9 @@ function LoginScreen() {
               keyboardType="email-address"
               theme={inputTheme}
               returnKeyType="next"
-              onSubmitEditing={() => passwordRef.current?.focus()}
-              blurOnSubmit={false}
             />
 
             <TextInput
-              ref={passwordRef}
               label="Password"
               value={password}
               onChangeText={setPassword}
