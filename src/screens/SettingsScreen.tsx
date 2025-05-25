@@ -8,6 +8,8 @@ import app from "../utils/firebase";
 function SettingsScreen() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
+  const auth = getAuth(app);
+  const userEmail = auth.currentUser?.email;
 
   const handleLogout = async () => {
     setLoading(true);
@@ -27,9 +29,9 @@ function SettingsScreen() {
       <List.Section>
         <List.Subheader>Profile</List.Subheader>
         <List.Item
-          title="Username"
-          description="user@example.com"
-          left={(props) => <List.Icon {...props} icon="account" />}
+          title="Email"
+          description={userEmail || "Not signed in"}
+          left={(props) => <List.Icon {...props} icon="email" />}
         />
         <List.Item
           title="User Account Management"
