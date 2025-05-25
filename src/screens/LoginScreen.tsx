@@ -1,6 +1,5 @@
 import { useRouter } from "expo-router";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import { Image, ScrollView, Text, useColorScheme, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
@@ -10,8 +9,8 @@ import { themeColors } from "../components/themeColors";
 import app from "../utils/firebase";
 import { pinoyMoneyPhrases } from "../utils/pinoySayings";
 
-function LoginScreen() {
-  const colorScheme = useColorScheme();
+function LoginScreen() {  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -67,9 +66,8 @@ function LoginScreen() {
   const inputTheme = {
     colors: {
       primary: themeColors.facebookBlue,
-      outline: themeColors.facebookBlue,
-      placeholder: colorScheme === 'dark' ? themeColors.textLight : themeColors.textDark,
-      text: colorScheme === 'dark' ? themeColors.white : themeColors.textDark
+      outline: themeColors.facebookBlue,      placeholder: isDark ? themeColors.textLight : themeColors.textDark,
+      text: isDark ? themeColors.white : themeColors.textDark
     }
   };
 
@@ -97,7 +95,7 @@ function LoginScreen() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: colorScheme === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)'
+          backgroundColor: isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)'
         }}
         pointerEvents="none"
       />
@@ -159,11 +157,11 @@ function LoginScreen() {
               style={{ marginBottom: 24, width: '100%' }}
               theme={inputTheme}
               returnKeyType="go"
-              onSubmitEditing={handleLogin}
-              right={
+              onSubmitEditing={handleLogin}              right={
                 <TextInput.Icon
-                  icon={showPassword ? EyeOff : Eye}
+                  icon={showPassword ? "eye-off" : "eye"}
                   onPress={() => setShowPassword(!showPassword)}
+                  color={isDark ? themeColors.textLight : themeColors.textDark}
                 />
               }
             /><Button
@@ -182,7 +180,7 @@ function LoginScreen() {
             </Button>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
-              <Text style={{ color: colorScheme === 'dark' ? themeColors.textLight : themeColors.textDark }}>
+              <Text style={{ color: colorScheme === 'dark' ? themeColors.white : themeColors.textDark }}>
                 Don&apos;t have an account?{' '}
               </Text>
               <Button
