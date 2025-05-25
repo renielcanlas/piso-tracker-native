@@ -176,8 +176,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ visible, onClose }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  overlay: {
+const styles = StyleSheet.create({  overlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.4)",
     justifyContent: "center",
@@ -189,11 +188,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 24,
     alignItems: "stretch",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
+    // Platform-specific shadows
+    elevation: 5, // Android
   },
   title: {
     fontSize: 22,

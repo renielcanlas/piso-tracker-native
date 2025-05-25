@@ -57,23 +57,27 @@ const AnimatedStars: React.FC = () => {
   }, [starScales, starOpacities]);
 
   return (
-    <View style={{ flexDirection: 'row', marginHorizontal: 8 }} accessible accessibilityLabel="Animated stars">
-      {Array.from({ length: count }).map((_, i) => (
-        <Animated.Text
-          key={i}
-          style={{
-            fontSize: size,
-            color,
-            marginHorizontal: 2,
-            transform: [{ scale: starScales[i] }],
-            opacity: starOpacities[i],
-          }}
-          accessibilityLabel="Star"
-          accessibilityRole="image"
-        >
-          ★
-        </Animated.Text>
-      ))}
+    <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 16, width: '100%' }}>
+      <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
+      <View style={{ flexDirection: 'row', marginHorizontal: 8 }} accessible accessibilityLabel="Animated stars">
+        {Array.from({ length: count }).map((_, i) => (
+          <Animated.Text
+            key={i}
+            style={{
+              fontSize: size,
+              color,
+              marginHorizontal: 2,
+              transform: [{ scale: starScales[i] }],
+              opacity: starOpacities[i],
+            }}
+            accessibilityLabel="Star"
+            accessibilityRole="image"
+          >
+            ★
+          </Animated.Text>
+        ))}
+      </View>
+      <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
     </View>
   );
 };

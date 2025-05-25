@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import * as React from "react";
-import { View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import { Divider, List } from "react-native-paper";
 import app from "../utils/firebase";
 
@@ -23,11 +23,11 @@ function SettingsScreen() {
       setLoading(false);
     }
   };
-
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <List.Section>
-        <List.Subheader>Profile</List.Subheader>
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+        <List.Section>
+          <List.Subheader>Profile</List.Subheader>
         <List.Item
           title="Email"
           description={userEmail || "Not signed in"}
@@ -64,26 +64,39 @@ function SettingsScreen() {
           left={(props) => <List.Icon {...props} icon="import" />}
           onPress={() => {}}
         />
-      </List.Section>
-      <Divider />
+      </List.Section>      <Divider />
       <List.Section>
         <List.Subheader>App Info</List.Subheader>
         <List.Item
           title="About Us"
           left={(props) => <List.Icon {...props} icon="information" />}
-          onPress={() => {}}
+          onPress={() => router.push('/about')}
         />
         <List.Item
           title="Privacy Policy"
           left={(props) => <List.Icon {...props} icon="shield-lock" />}
-          onPress={() => {}}
+          onPress={() => router.push('/privacy')}
         />
         <List.Item
           title="Terms of Service"
           left={(props) => <List.Icon {...props} icon="file-document" />}
-          onPress={() => {}}
-        />
+          onPress={() => router.push('/terms')}
+        />        <List.Item
+          title="Created by Zerulean Technologies"
+          description="© 2025 All rights reserved"
+          left={() => (
+            <View style={{ justifyContent: 'center', marginLeft: 8, marginRight: 4 }}>
+              <Image
+                source={require("../../assets/images/zerulean_cloud.png")}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            </View>
+          )}
+          disabled
+        />  
       </List.Section>
+      </ScrollView>
     </View>
   );
 }

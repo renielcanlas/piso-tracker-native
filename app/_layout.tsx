@@ -19,15 +19,14 @@ function useProtectedRoute() {
 
     return unsubscribe;
   }, []);
-
   React.useEffect(() => {
     if (initialRoute) return; // Don't redirect on initial auth check
 
-    // Removed inAuthGroup as "(auth)" is not a valid segment
+    const isPublicRoute = segments[0] === "login" || segments[0] === "terms" || segments[0] === "privacy" || segments[0] === "about";
     const isLoginScreen = segments[0] === "login";
 
-    if (!user && !isLoginScreen) {
-      // If not logged in and not on login screen, redirect to login
+    if (!user && !isPublicRoute) {
+      // If not logged in and not on a public route, redirect to login
       router.replace("/");
     } else if (user && isLoginScreen) {
       // If logged in and on login screen, redirect to dashboard
@@ -48,10 +47,10 @@ export default function RootLayout() {
   return (
     <PaperProvider>
       <Stack
-        screenOptions={({ route }) => {
-          const headeredRoutes = {
+        screenOptions={({ route }) => {          const headeredRoutes = {
             terms: "Terms of Use",
             privacy: "Privacy Policy",
+            about: "About Us",
             "user-account": "User Account Management",
           };
 

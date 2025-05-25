@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { doc, enableIndexedDbPersistence, getDoc, getFirestore, initializeFirestore, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, initializeFirestore, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA71CkZQoVhU-jvBtkJ6hci6q0Ag1bYs_c",
@@ -19,39 +19,23 @@ console.log("Firebase initialized:", app.name, app.options);
 const auth = getAuth(app);
 
 // Initialize Firestore with specific settings for better offline support
-// We use IIFE to handle initialization and error cases
+// Note: Offline persistence is enabled by default for mobile apps
 const db = (() => {
   try {
     // Try to get existing Firestore instance first
-    return getFirestore(app);
+    const firestoreInstance = getFirestore(app);
+    console.log('Using existing Firestore instance');
+    return firestoreInstance;
   } catch (error) {
     console.log('Creating new Firestore instance:', error);
     // If no instance exists, create new one with our settings
     return initializeFirestore(app, {
+      // These settings help with offline support
       experimentalForceLongPolling: true,
       experimentalAutoDetectLongPolling: true
     });
   }
 })();
-
-// Enable offline persistence with better error handling
-try {
-  enableIndexedDbPersistence(db)
-    .then(() => {
-      console.log('Offline persistence enabled successfully');
-    })
-    .catch((err) => {
-      if (err.code === 'failed-precondition') {
-        console.warn('Multiple tabs open, persistence enabled in another tab');
-      } else if (err.code === 'unimplemented') {
-        console.warn('Current browser does not support persistence');
-      } else {
-        console.error('Error enabling persistence:', err);
-      }
-    });
-} catch (error) {
-  console.error('Failed to enable persistence:', error);
-}
 
 // Function to save user avatar settings
 export async function saveUserAvatarSettings(userId: string, icon: string, color: string) {

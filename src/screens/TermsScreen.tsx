@@ -24,7 +24,7 @@ export default function TermsScreen() {
         5. All content and features are provided &quot;as is&quot; without warranty. Piso Tracker is not responsible for any damages arising from use of the app.
       </Text>
       <Text style={{ marginBottom: 8 }}>
-        6. For questions, contact support@pisotracker.ph.
+        6. For questions, contact pisotracker@zerulean.ph.
       </Text>
     </ScrollView>
   );

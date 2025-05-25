@@ -18,13 +18,13 @@ export default function PrivacyScreen() {
         3. Piso Tracker does not sell or rent your personal information.
       </Text>
       <Text style={{ marginBottom: 8 }}>
-        4. You may request deletion of your data by contacting support@pisotracker.ph.
+        4. You may request deletion of your data by contacting pisotracker@zerulean.ph.
       </Text>
       <Text style={{ marginBottom: 8 }}>
         5. Piso Tracker may update this policy. Continued use of the app means you accept the updated policy.
       </Text>
       <Text style={{ marginBottom: 8 }}>
-        6. For privacy concerns, contact support@pisotracker.ph.
+        6. For privacy concerns, contact pisotracker@zerulean.ph.
       </Text>
     </ScrollView>
   );

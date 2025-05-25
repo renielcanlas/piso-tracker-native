@@ -2,20 +2,28 @@ import { useRouter } from "expo-router";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
+import AnimatedStars from "../components/AnimatedStars";
 import SignupModal from "../components/SignupModal";
 import { themeColors } from "../components/themeColors";
 import app from "../utils/firebase";
+import { pinoyMoneyPhrases } from "../utils/pinoySayings";
 
 function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [showSignup, setShowSignup] = React.useState(false); // Local state to control the signup modal
+  const [showSignup, setShowSignup] = React.useState(false);
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
+
+  // Select a random phrase when component mounts
+  const [randomPhrase] = React.useState(() =>
+    pinoyMoneyPhrases[Math.floor(Math.random() * pinoyMoneyPhrases.length)]
+  );
+
   React.useEffect(() => {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -81,96 +89,183 @@ function LoginScreen() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255,255,255,0.4)' // decreased opacity from 0.7 to 0.5
+          backgroundColor: 'rgba(255,255,255,0.7)'
         }}
         pointerEvents="none"
       />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
-        <Image
-          source={require("../../assets/images/logo.png")}
-          style={{ width: 120, height: 120, marginBottom: 24 }}
-          resizeMode="contain"
-          accessibilityLabel="App logo"
-        />
-        <View style={{ alignItems: 'center', width: '80%' }}>
-          <View style={{ marginBottom: 24 }}>
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: themeColors.primaryBlue,
-                textAlign: 'center',
-                marginBottom: 8
-              }}>
-              Welcome Back
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: themeColors.textDark,
-                textAlign: 'center'
-              }}>
-              Sign in to continue tracking your finances
-            </Text>
-          </View>
-          
-          {error ? (
-            <View style={{ marginBottom: 16, width: '100%' }}>
-              <Text style={{ color: themeColors.googleRed, textAlign: 'center' }}>{error}</Text>
+      
+      <ScrollView 
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 24 }}>
+          <Image
+            source={require("../../assets/images/logo.png")}
+            style={{ width: 120, height: 120, marginBottom: 24 }}
+            resizeMode="contain"
+            accessibilityLabel="App logo"
+          />
+          <View style={{ alignItems: 'center', width: '80%' }}>
+            <View style={{ marginBottom: 24 }}>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  color: themeColors.primaryBlue,
+                  textAlign: 'center',
+                  marginBottom: 8
+                }}>
+                Login with your account
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: themeColors.googleRed,
+                  textAlign: 'center'
+                }}>
+                {randomPhrase}
+              </Text>
             </View>
-          ) : null}
 
-          <TextInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            mode="outlined"
-            style={{ marginBottom: 16, width: '100%' }}
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
+            {error ? (
+              <View style={{ marginBottom: 16, width: '100%' }}>
+                <Text style={{ color: themeColors.googleRed, textAlign: 'center' }}>{error}</Text>
+              </View>
+            ) : null}
 
-          <TextInput
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            mode="outlined"
-            style={{ marginBottom: 24, width: '100%' }}
-            right={
-              <TextInput.Icon
-                icon={showPassword ? EyeOff : Eye}
-                onPress={() => setShowPassword(!showPassword)}
-              />
-            }
-          />
+            <TextInput
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              mode="outlined"
+              style={{ marginBottom: 16, width: '100%' }}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              theme={{
+                colors: {
+                  primary: themeColors.facebookBlue,
+                  outline: themeColors.facebookBlue,
+                  placeholder: themeColors.textDark,
+                  text: themeColors.textDark
+                }
+              }}
+            />
 
-          <Button
-            mode="contained"
-            onPress={handleLogin}
-            loading={loading}
-            disabled={loading}
-            style={{
-              width: '100%',
-              marginBottom: 16,
-              backgroundColor: themeColors.primaryBlue
-            }}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </Button>
+            <TextInput
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              mode="outlined"
+              style={{ marginBottom: 24, width: '100%' }}
+              theme={{
+                colors: {
+                  primary: themeColors.facebookBlue,
+                  outline: themeColors.facebookBlue,
+                  placeholder: themeColors.textDark,
+                  text: themeColors.textDark
+                }
+              }}
+              right={
+                <TextInput.Icon
+                  icon={showPassword ? EyeOff : Eye}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              }
+            />
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
-            <Text style={{ color: themeColors.textDark }}>
-              Don&apos;t have an account?{' '}
-            </Text>
             <Button
-              mode="text"
-              onPress={() => setShowSignup(true)}
-              style={{ marginLeft: -8 }}>
-              Sign up
+              mode="contained"
+              onPress={handleLogin}
+              loading={loading}
+              disabled={loading}
+              style={{
+                width: '100%',
+                marginBottom: 16,
+                backgroundColor: themeColors.primaryBlue,
+                borderRadius: 4
+              }}>
+              {loading ? 'Signing in...' : 'Sign In'}
             </Button>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+              <Text style={{ color: themeColors.textDark }}>
+                Don&apos;t have an account?{' '}
+              </Text>
+              <Button
+                mode="text"
+                onPress={() => setShowSignup(true)}
+                style={{ marginLeft: -8 }}
+                textColor={themeColors.facebookBlue}>
+                Sign up
+              </Button>
+            </View>
+
+            <AnimatedStars />
+
+            <View style={{ width: '100%', flexDirection: 'row', gap: 12, marginTop: 16 }}>
+              <Button
+                mode="contained"
+                onPress={() => {/* TODO: Implement Facebook login */}}
+                style={{
+                  flex: 1,
+                  borderRadius: 4,
+                  backgroundColor: themeColors.facebookBlue
+                }}
+                icon="facebook">
+                Facebook
+              </Button>
+
+              <Button
+                mode="contained"
+                onPress={() => {/* TODO: Implement Google login */}}
+                style={{
+                  flex: 1,
+                  borderRadius: 4,
+                  backgroundColor: themeColors.googleRed
+                }}
+                icon="google">
+                Google
+              </Button>
+            </View>
           </View>
         </View>
-      </View>      <SignupModal
+      </ScrollView>
+
+      {/* Footer */}
+      <View style={{ 
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingVertical: 16,
+        backgroundColor: 'rgba(255,255,255,0.4)',      }}>        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>          <Button
+            mode="text"
+            onPress={() => router.push("/terms")}
+            textColor={themeColors.textDark}
+            compact>
+            Terms of Use
+          </Button>
+          <Text style={{ color: themeColors.textDark, alignSelf: 'center', marginHorizontal: 4 }}>•</Text>
+          <Button
+            mode="text"
+            onPress={() => router.push("/privacy")}
+            textColor={themeColors.textDark}
+            compact>
+            Privacy Policy
+          </Button>
+          <Text style={{ color: themeColors.textDark, alignSelf: 'center', marginHorizontal: 4 }}>•</Text>
+          <Button
+            mode="text"
+            onPress={() => router.push("/about")}
+            textColor={themeColors.textDark}
+            compact>
+            About Us
+          </Button>
+        </View>
+      </View>
+
+      <SignupModal
         visible={showSignup}
         onClose={() => setShowSignup(false)}
       />
