@@ -34,7 +34,7 @@ function SettingsScreen() {
         <List.Item
           title="User Account Management"
           left={(props) => <List.Icon {...props} icon="account-cog" />}
-          onPress={() => {}}
+          onPress={() => router.push('/user-account')}
         />
         <List.Item
           title="Logout"

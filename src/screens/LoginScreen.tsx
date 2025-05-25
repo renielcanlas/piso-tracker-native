@@ -182,6 +182,7 @@ function LoginScreen() {
               style={{ flex: 1, marginRight: 8, backgroundColor: themeColors.primaryBlue, borderColor: themeColors.primaryBlue, borderWidth: 1 }}
               labelStyle={{ color: themeColors.white, fontWeight: 'bold' }}
               onPress={() => {}}
+              icon="facebook"
             >
               Facebook
             </Button>
@@ -190,6 +191,7 @@ function LoginScreen() {
               style={{ flex: 1, marginLeft: 8, backgroundColor: themeColors.googleRed, borderColor: themeColors.googleRed, borderWidth: 1 }}
               labelStyle={{ color: themeColors.white, fontWeight: 'bold' }}
               onPress={() => {}}
+              icon="google"
             >
               Google
             </Button>

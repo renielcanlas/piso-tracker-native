@@ -1,11 +1,12 @@
 // Philippine theme colors for consistent use across the app
 export const themeColors = {
-  primaryBlue: '#1877F3', // Facebook blue, also used for login
-  googleRed: '#EA4335',
-  yellow: '#FCD116', // Philippine flag yellow
-  outlineBlue: '#0033A0', // Input outline blue
-  textDark: '#222',
-  textLight: '#555',
-  link: '#0033A0',
-  white: '#fff',
+  primaryBlue: "#1976D2",
+  googleRed: "#DB4437",
+  facebookBlue: "#4267B2",
+  yellow: "#FFA000",
+  outlineBlue: "#2196F3",
+  textDark: "#263238",
+  textLight: "#78909C",
+  link: "#1E88E5",
+  white: "#FFFFFF",
 };

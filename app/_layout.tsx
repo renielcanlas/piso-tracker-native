@@ -40,18 +40,28 @@ function useProtectedRoute() {
 export default function RootLayout() {
   const { initialRoute } = useProtectedRoute();
 
-  // Optional: show a loading screen while checking initial auth state
   if (initialRoute) {
-    return null; // or return a loading spinner
+    return null;
   }
 
   return (
     <Stack
-      screenOptions={({ route }) => ({
-        headerShown: route.name === "terms" || route.name === "privacy",
-        headerTitle: route.name === "terms" ? "Terms of Use" : "Privacy Policy",
-        headerBackTitle: "Back",
-      })}
+      screenOptions={({ route }) => {
+        const headeredRoutes = {
+          terms: "Terms of Use",
+          privacy: "Privacy Policy",
+          "user-account": "User Account Management",
+        };
+
+        const routeName = route.name as keyof typeof headeredRoutes;
+        const shouldShowHeader = routeName in headeredRoutes;
+
+        return {
+          headerShown: shouldShowHeader,
+          headerTitle: shouldShowHeader ? headeredRoutes[routeName] : undefined,
+          headerBackTitle: "Back",
+        };
+      }}
     />
   );
 }
