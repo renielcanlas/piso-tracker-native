@@ -41,7 +41,7 @@ const ICONS = [
   // Objects & Symbols
   'airplane', 'bag-personal', 'balloon', 'book', 'camera', 'cards-heart',
   'coffee', 'cookie', 'crown', 'cup', 'dice-multiple', 'food-apple',
-  'gamepad', 'gift', 'guitar', 'heart', 'hexagon', 'key', 'lightning-bolt',
+  'gamepad', 'gift', 'heart', 'hexagon', 'key', 'lightning-bolt',
   'medal', 'music', 'palette', 'pizza', 'rocket', 'shield', 'sword',
   // Tech & Brands
   'android', 'apple', 'github', 'google', 'microsoft', 'robot', 'twitter',
