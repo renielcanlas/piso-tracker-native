@@ -1,11 +1,15 @@
 import * as React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, useColorScheme } from "react-native";
 import { Text } from "react-native-paper";
+import { themeColors } from "../components/themeColors";
 
 export default function PrivacyScreen() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#fff", padding: 16 }}>
-      <Text style={{ marginBottom: 12 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: isDark ? '#000000' : '#f5f5f5', padding: 16 }}>
+      <Text style={{ marginBottom: 12, color: isDark ? themeColors.white : themeColors.textDark }}>
         Piso Tracker values your privacy. This policy explains how we collect, use, and protect your information:
       </Text>
       <Text style={{ marginBottom: 8 }}>

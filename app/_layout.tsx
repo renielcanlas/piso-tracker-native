@@ -1,7 +1,9 @@
 import { Stack, useRouter, useSegments } from "expo-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as React from "react";
+import { useColorScheme } from "react-native";
 import { PaperProvider } from "react-native-paper";
+import { themeColors } from "../src/components/themeColors";
 import app from "../src/utils/firebase";
 
 function useProtectedRoute() {
@@ -39,6 +41,8 @@ function useProtectedRoute() {
 
 export default function RootLayout() {
   const { initialRoute } = useProtectedRoute();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   if (initialRoute) {
     return null;
@@ -47,7 +51,8 @@ export default function RootLayout() {
   return (
     <PaperProvider>
       <Stack
-        screenOptions={({ route }) => {          const headeredRoutes = {
+        screenOptions={({ route }) => {
+          const headeredRoutes = {
             terms: "Terms of Use",
             privacy: "Privacy Policy",
             about: "About Us",
@@ -55,12 +60,15 @@ export default function RootLayout() {
           };
 
           const routeName = route.name as keyof typeof headeredRoutes;
-          const shouldShowHeader = routeName in headeredRoutes;
-
-          return {
+          const shouldShowHeader = routeName in headeredRoutes;          return {
             headerShown: shouldShowHeader,
             headerTitle: shouldShowHeader ? headeredRoutes[routeName] : undefined,
             headerBackTitle: "Back",
+            headerStyle: {
+              backgroundColor: isDark ? '#1a1a1a' : '#ffffff'
+            },
+            headerTintColor: isDark ? themeColors.white : themeColors.textDark,
+            headerShadowVisible: false
           };
         }}
       />

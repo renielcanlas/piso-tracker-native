@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import * as React from "react";
-import { Image, ScrollView, View } from "react-native";
+import { Image, ScrollView, useColorScheme, View } from "react-native";
 import { Divider, List } from "react-native-paper";
 import app from "../utils/firebase";
 
@@ -22,9 +22,11 @@ function SettingsScreen() {
     } finally {
       setLoading(false);
     }
-  };
+  };  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <View style={{ flex: 1, backgroundColor: isDark ? '#000000' : '#f5f5f5' }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <List.Section>
           <List.Subheader>Profile</List.Subheader>

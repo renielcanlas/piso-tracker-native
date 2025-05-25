@@ -1,5 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useColorScheme } from "react-native";
 import { List } from "react-native-paper";
+import { themeColors } from "../components/themeColors";
 import AccountsScreen from "./AccountsScreen";
 import BudgetScreen from "./BudgetScreen";
 import HomeScreen from "./HomeScreen";
@@ -9,9 +11,24 @@ import TransactionsScreen from "./TransactionsScreen";
 const Tab = createBottomTabNavigator();
 
 export default function DashboardTabsScreen() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
+    <Tab.Navigator      screenOptions={({ route }) => ({
+        tabBarStyle: {
+          backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
+          borderTopColor: isDark ? '#333333' : '#e0e0e0'
+        },
+        tabBarActiveTintColor: themeColors.primaryBlue,
+        tabBarInactiveTintColor: isDark ? themeColors.textLight : themeColors.textDark,
+        headerStyle: {
+          backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
+        },
+        headerTintColor: isDark ? themeColors.white : themeColors.textDark,
+        contentStyle: {
+          backgroundColor: isDark ? '#000000' : '#f5f5f5'
+        },
         tabBarIcon: ({ color, size }) => {
           let iconName;
           switch (route.name) {
