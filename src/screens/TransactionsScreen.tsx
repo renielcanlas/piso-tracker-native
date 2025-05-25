@@ -5,7 +5,9 @@ import { Text } from "react-native-paper";
 function TransactionsScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text variant="headlineMedium">Transactions</Text>
+      <View>
+        <Text variant="headlineMedium">Transactions</Text>
+      </View>
     </View>
   );
 }

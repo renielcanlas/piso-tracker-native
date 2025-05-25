@@ -5,7 +5,9 @@ import { Text } from "react-native-paper";
 function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text variant="headlineMedium">Home</Text>
+      <View>
+        <Text variant="headlineMedium">Home</Text>
+      </View>
     </View>
   );
 }

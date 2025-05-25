@@ -100,7 +100,6 @@ export default function AvatarModal({ visible, onDismiss, onSave, initialIcon = 
       </View>
     </ScrollView>
   );
-
   return (
     <Portal>
       <Modal
@@ -109,11 +108,13 @@ export default function AvatarModal({ visible, onDismiss, onSave, initialIcon = 
         contentContainerStyle={styles.modalContainer}
       >
         <View style={styles.previewContainer}>
-          <Avatar.Icon 
-            size={80} 
-            icon={selectedIcon}
-            style={{ backgroundColor: selectedColor }}
-          />
+          <View>
+            <Avatar.Icon 
+              size={80} 
+              icon={selectedIcon}
+              style={{ backgroundColor: selectedColor }}
+            />
+          </View>
         </View>
         <SegmentedButtons
           value={activeTab}

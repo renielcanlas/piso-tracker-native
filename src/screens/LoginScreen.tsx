@@ -4,7 +4,6 @@ import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import { Image, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
-import AnimatedStars from "../components/AnimatedStars";
 import SignupModal from "../components/SignupModal";
 import { themeColors } from "../components/themeColors";
 import app from "../utils/firebase";
@@ -17,7 +16,6 @@ function LoginScreen() {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
-
   React.useEffect(() => {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -29,7 +27,7 @@ function LoginScreen() {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, [router]); // Add router to dependencies
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -95,145 +93,87 @@ function LoginScreen() {
           accessibilityLabel="App logo"
         />
         <View style={{ alignItems: 'center', width: '80%' }}>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              color: themeColors.primaryBlue,
-              marginBottom: 8,
-              textAlign: 'center',
-              textShadowColor: themeColors.white,
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 4,
-              elevation: 2, // for Android shadow
-            }}
-          >
-            Login with your account
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: themeColors.outlineBlue,
-              textAlign: 'center',
-              marginBottom: 24,
-              textShadowColor: themeColors.white,
-              textShadowOffset: { width: 0, height: 1 },
-              textShadowRadius: 6,
-              elevation: 1,
-            }}
-          >
-            Saan na napunta ang pera mo?
-          </Text>
+          <View style={{ marginBottom: 24 }}>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: themeColors.primaryBlue,
+                textAlign: 'center',
+                marginBottom: 8
+              }}>
+              Welcome Back
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: themeColors.textDark,
+                textAlign: 'center'
+              }}>
+              Sign in to continue tracking your finances
+            </Text>
+          </View>
+          
+          {error ? (
+            <View style={{ marginBottom: 16, width: '100%' }}>
+              <Text style={{ color: themeColors.googleRed, textAlign: 'center' }}>{error}</Text>
+            </View>
+          ) : null}
+
           <TextInput
             label="Email"
             value={email}
             onChangeText={setEmail}
+            mode="outlined"
             style={{ marginBottom: 16, width: '100%' }}
             autoCapitalize="none"
             keyboardType="email-address"
-            mode="outlined"
-            theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
           />
+
           <TextInput
             label="Password"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
-            style={{ marginBottom: 24, width: '100%' }}
             mode="outlined"
-            theme={{ colors: { primary: themeColors.outlineBlue, outline: themeColors.outlineBlue } }}
+            style={{ marginBottom: 24, width: '100%' }}
             right={
               <TextInput.Icon
-                onPress={() => setShowPassword((prev) => !prev)}
-                icon={() => showPassword ? (
-                  <EyeOff size={20} color={themeColors.outlineBlue} />
-                ) : (
-                  <Eye size={20} color={themeColors.outlineBlue} />
-                )}
-                forceTextInputFocus={false}
+                icon={showPassword ? EyeOff : Eye}
+                onPress={() => setShowPassword(!showPassword)}
               />
             }
           />
-          {error ? (
-            <Text style={{ color: themeColors.googleRed, marginBottom: 16, textAlign: 'center' }}>
-              {error}
-            </Text>
-          ) : null}
-          <Button 
-            mode="contained" 
-            style={{ width: '100%', backgroundColor: themeColors.primaryBlue, borderRadius: 4 }} 
+
+          <Button
+            mode="contained"
             onPress={handleLogin}
             loading={loading}
             disabled={loading}
-          >
-            Login
+            style={{
+              width: '100%',
+              marginBottom: 16,
+              backgroundColor: themeColors.primaryBlue
+            }}>
+            {loading ? 'Signing in...' : 'Sign In'}
           </Button>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 24, width: '100%' }}>
-            <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
-            <AnimatedStars />
-            <View style={{ flex: 1, height: 2, backgroundColor: themeColors.yellow }} />
-          </View>
-          <Text style={{ fontSize: 13, color: themeColors.yellow, marginBottom: 12, textAlign: 'center' }}>
-            or login with
-          </Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
-            <Button
-              mode="contained"
-              style={{ flex: 1, marginRight: 8, backgroundColor: themeColors.primaryBlue, borderColor: themeColors.primaryBlue, borderWidth: 1 }}
-              labelStyle={{ color: themeColors.white, fontWeight: 'bold' }}
-              onPress={() => {}}
-              icon="facebook"
-            >
-              Facebook
-            </Button>
-            <Button
-              mode="contained"
-              style={{ flex: 1, marginLeft: 8, backgroundColor: themeColors.googleRed, borderColor: themeColors.googleRed, borderWidth: 1 }}
-              labelStyle={{ color: themeColors.white, fontWeight: 'bold' }}
-              onPress={() => {}}
-              icon="google"
-            >
-              Google
-            </Button>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
-            <Text style={{ color: themeColors.yellow, fontSize: 13 }}>
-              Don&apos;t have an account?
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+            <Text style={{ color: themeColors.textDark }}>
+              Don&apos;t have an account?{' '}
             </Text>
-            <Text
-              style={{ color: themeColors.link, fontWeight: 'bold', marginLeft: 6, fontSize: 13, textDecorationLine: 'underline' }}
+            <Button
+              mode="text"
               onPress={() => setShowSignup(true)}
-            >
+              style={{ marginLeft: -8 }}>
               Sign up
-            </Text>
+            </Button>
           </View>
-          {showSignup && (
-            <SignupModal visible={showSignup} onClose={() => setShowSignup(false)} />
-          )}
         </View>
-      </View>
-      {/* Footer with links */}
-      <View style={{ width: '100%', alignItems: 'center', paddingBottom: 24, position: 'absolute', bottom: 0, left: 0, paddingTop: 12 }}>
-        <View
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: 0,
-            backgroundColor: 'rgba(255,255,255,0.7)',
-            zIndex: 0,
-          }}
-        />
-        <View style={{ flexDirection: 'row', justifyContent: 'center', zIndex: 1 }}>
-          <Text style={{ color: themeColors.link, textDecorationLine: 'underline', marginHorizontal: 8 }} onPress={() => router.push('/terms')}>
-            Terms of Service
-          </Text>
-          <Text style={{ color: themeColors.link, textDecorationLine: 'underline', marginHorizontal: 8 }} onPress={() => router.push('/privacy')}>
-            Privacy Policy
-          </Text>
-        </View>
-      </View>
+      </View>      <SignupModal
+        visible={showSignup}
+        onClose={() => setShowSignup(false)}
+      />
     </View>
   );
 }

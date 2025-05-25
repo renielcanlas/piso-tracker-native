@@ -62,14 +62,19 @@ export default function AccountsScreen() {
       <ScrollView>
         <View style={{ padding: 16 }}>
           {accountsData.map((group) => (
-            <View key={group.category} style={{ marginBottom: 24 }}>
-              <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}>{group.category}</Text>
+            <View key={group.category} style={{ marginBottom: 24 }}>              <View>
+                <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}>{group.category}</Text>
+              </View>
               {group.accounts.map((account) => (
                 <List.Item
                   key={account.name}
                   title={account.name}
                   left={() => <account.icon size={32} style={{ marginRight: 16 }} color="#555" />}
-                  right={() => <Text style={{ fontWeight: "bold" }}>{account.balance}</Text>}
+                  right={() => (
+                    <View>
+                      <Text style={{ fontWeight: "bold" }}>{account.balance}</Text>
+                    </View>
+                  )}
                 />
               ))}
             </View>
