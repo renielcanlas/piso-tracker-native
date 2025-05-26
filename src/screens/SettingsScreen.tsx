@@ -1,21 +1,17 @@
 import { useRouter } from "expo-router";
-import { getAuth, signOut } from "firebase/auth";
 import * as React from "react";
 import { Image, ScrollView, useColorScheme, View } from "react-native";
 import { Divider, List } from "react-native-paper";
-import app from "../utils/firebase";
 
 function SettingsScreen() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
-  const auth = getAuth(app);
-  const userEmail = auth.currentUser?.email;
 
   const handleLogout = async () => {
     setLoading(true);
     try {
-      const auth = getAuth(app);
-      await signOut(auth);
+      // const auth = getAuth(app);
+      // await signOut(auth);
       router.replace("/");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -32,7 +28,7 @@ function SettingsScreen() {
           <List.Subheader>Profile</List.Subheader>
         <List.Item
           title="Email"
-          description={userEmail || "Not signed in"}
+          description= "Not signed in"
           left={(props) => <List.Icon {...props} icon="email" />}
         />
         <List.Item

@@ -1,4 +1,3 @@
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import {
@@ -8,7 +7,6 @@ import {
   View
 } from "react-native";
 import { Button as PaperButton, TextInput as PaperTextInput } from "react-native-paper";
-import app from "../utils/firebase";
 import { themeColors } from "./themeColors";
 
 interface SignupModalProps {
@@ -24,16 +22,6 @@ const SignupModal: React.FC<SignupModalProps> = ({ visible, onClose }) => {
   const [error, setError] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showVerifyPassword, setShowVerifyPassword] = React.useState(false);
-
-  let auth;
-  try {
-    auth = getAuth(app);
-  } catch (e: any) {
-    setFatalError(
-      'A critical error occurred with authentication. Please fully close and reopen the app.'
-    );
-    return null;
-  }
 
   const validateEmail = (email: string) => {
     // Simple email regex
@@ -68,7 +56,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ visible, onClose }) => {
     }
     setError("");
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      // Assuming `auth` is your authentication instance
       onClose();
     } catch (err: any) {
       // If the error is the auth component error, show a user-friendly message

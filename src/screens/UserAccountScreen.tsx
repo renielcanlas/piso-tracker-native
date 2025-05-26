@@ -1,4 +1,3 @@
-import { EmailAuthProvider, getAuth, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -6,11 +5,10 @@ import { Button, Snackbar, TextInput } from "react-native-paper";
 import AnimatedStars from "../components/AnimatedStars";
 import AvatarModal from "../components/AvatarModal";
 import { themeColors } from "../components/themeColors";
-import app, { loadUserAvatarSettings, saveUserAvatarSettings } from "../utils/firebase";
 
 export default function UserAccountScreen() {
-  const auth = getAuth(app);
-  const user = auth.currentUser;
+  // const auth = getAuth(app);
+  const user = null; // auth.currentUser;
   const [showAvatarModal, setShowAvatarModal] = React.useState(false);
   const [currentIcon, setCurrentIcon] = React.useState('account');
   const [currentColor, setCurrentColor] = React.useState(themeColors.outlineDark);
@@ -34,15 +32,15 @@ export default function UserAccountScreen() {
   React.useEffect(() => {
     async function loadAvatarSettings() {
       if (user) {
-        console.log('Loading avatar settings for user:', user.uid);
+        // console.log('Loading avatar settings for user:', user.uid);
         setLoading(true);
-        const settings = await loadUserAvatarSettings(user.uid);
+        const settings = null; // await loadUserAvatarSettings(user.uid);
         console.log('Loaded settings:', settings);
-        if (settings) {
-          console.log('Updating UI with settings:', settings);
-          setCurrentIcon(settings.icon);
-          setCurrentColor(settings.color);
-        }
+        // if (settings) {
+        //   console.log('Updating UI with settings:', settings);
+        //   setCurrentIcon(settings.icon);
+        //   setCurrentColor(settings.color);
+        // }
         setLoading(false);
       } else {
         console.log('No user found, skipping avatar settings load');
@@ -61,8 +59,8 @@ export default function UserAccountScreen() {
     setSuccess("");
 
     try {
-      console.log('Attempting to save settings for user:', user.uid);
-      const success = await saveUserAvatarSettings(user.uid, icon, color);
+      // console.log('Attempting to save settings for user:', user.uid);
+      // const success = await saveUserAvatarSettings(user.uid, icon, color);
       
       if (success) {
         // Only update UI if save was successful
@@ -135,16 +133,16 @@ export default function UserAccountScreen() {
 
     try {
       // Create credentials with current email and password
-      const credential = EmailAuthProvider.credential(
-        user.email!,
-        currentPassword
-      );
+      // const credential = EmailAuthProvider.credential(
+      //   user.email!,
+      //   currentPassword
+      // );
 
       // Reauthenticate user
-      await reauthenticateWithCredential(user, credential);
+      // await reauthenticateWithCredential(user, credential);
 
       // Update password
-      await updatePassword(user, newPassword);
+      // await updatePassword(user, newPassword);
 
       setSuccess("Password updated successfully!");
       setNewPassword("");
@@ -175,7 +173,7 @@ export default function UserAccountScreen() {
       <View style={styles.section}>
         <TextInput
           label="Email"
-          value={user?.email || ""}
+          value="" // {user?.email || ""}
           style={styles.input}
           autoCapitalize="none"
           keyboardType="email-address"

@@ -1,12 +1,10 @@
 import { useRouter } from "expo-router";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import * as React from "react";
 import { Image, ScrollView, Text, useColorScheme, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import AnimatedStars from "../components/AnimatedStars";
 import SignupModal from "../components/SignupModal";
 import { themeColors } from "../components/themeColors";
-import app from "../utils/firebase";
 import { pinoyMoneyPhrases } from "../utils/pinoySayings";
 
 function LoginScreen() {  const colorScheme = useColorScheme();
@@ -23,19 +21,6 @@ function LoginScreen() {  const colorScheme = useColorScheme();
     pinoyMoneyPhrases[Math.floor(Math.random() * pinoyMoneyPhrases.length)]
   );
 
-  React.useEffect(() => {
-    const auth = getAuth(app);
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, redirect to dashboard
-        router.replace("/dashboard-tabs");
-      }
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, [router]); // Add router to dependencies
-
   const handleLogin = async () => {
     if (!email || !password) {
       setError("Please enter your email and password.");
@@ -44,8 +29,8 @@ function LoginScreen() {  const colorScheme = useColorScheme();
     setError("");
     setLoading(true);
     try {
-      const auth = getAuth(app);
-      await signInWithEmailAndPassword(auth, email, password);
+      // const auth = getAuth(app);
+      // await signInWithEmailAndPassword(auth, email, password);
       router.replace("/dashboard-tabs");
     } catch (err: any) {
       if (
